@@ -1,0 +1,4 @@
+Initial Code : https://github.com/tolunaykatirci/jwt-spring-boot-security
+[1] https://stackoverflow.com/questions/55606519/getting-exception-java-lang-noclassdeffounderror-could-not-initialize-class-jav
+[2] https://www.baeldung.com/get-user-in-spring-security
+[3] https://stackoverflow.com/questions/64639836/plugin-org-springframework-bootspring-boot-maven-plugin-not-found
