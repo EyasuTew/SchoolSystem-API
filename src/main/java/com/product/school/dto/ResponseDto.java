@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResponseDto {
-    private String status;
+    private Boolean status;
     private String message;
 }
