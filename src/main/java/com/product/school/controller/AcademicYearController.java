@@ -1,15 +1,12 @@
 package com.product.school.controller;
 
 import com.product.school.data.AcademicYear;
-import com.product.school.data.User;
 import com.product.school.dto.ResponseDto;
 import com.product.school.dto.request.AcademicYearDto;
-import com.product.school.dto.request.UserCreateDto;
 import com.product.school.message.AcademicYearMessage;
 import com.product.school.repositories.AcedemicYearRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,11 +42,11 @@ public class AcademicYearController {
             academicYear.setCurrent(academicYearDto.getIsCurrent());
             acedemicYearRepository.save(academicYear);
             return ResponseEntity.ok().
-                    body(new ResponseDto("success",AcademicYearMessage.CREATE_SUCCESSFUL));
+                    body(new ResponseDto(true,AcademicYearMessage.CREATE_SUCCESSFUL));
         }catch (Exception ex){
             LOGGER.log(Level.SEVERE, "Exception occur ", ex);
             return ResponseEntity.badRequest().
-                    body(new ResponseDto("fail",AcademicYearMessage.CREATE_FAILED));
+                    body(new ResponseDto(false,AcademicYearMessage.CREATE_FAILED));
         }
     }
 
