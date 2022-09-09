@@ -4,11 +4,11 @@ import com.product.school.data.GeneralSubjects;
 import com.product.school.dto.ResponseDto;
 import com.product.school.message.GeneralSubjectMessage;
 import com.product.school.repositories.GeneralSubjectRepository;
+import com.product.school.utility.PaginationMaker;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,14 +18,26 @@ import java.util.logging.Logger;
 public class GeneralSubjectController {
 
     @Autowired
+    private PaginationMaker paginationMaker;
+
+    @Autowired
     private GeneralSubjectRepository generalSubjectRepository;
     private static final Logger LOGGER = Logger.getLogger(GeneralSubjectController.class.getName());
 
     @GetMapping
     //@PostAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
-    public ResponseEntity<List<GeneralSubjects>> listAll() {
+    public ResponseEntity<Page<GeneralSubjects>> listAll(
+            @RequestParam("page") int page,
+            @RequestParam("size") int size,
+            @RequestParam(name = "orderBy", required = false) String sortBy,
+            @RequestParam(name = "orderBy", required = false) String sortOrder
+    ) {
         try {
-            return ResponseEntity.ok().body(generalSubjectRepository.findAll());
+            if(sortBy!=null || sortOrder!=null){
+                return ResponseEntity.ok().body(generalSubjectRepository.findAll(paginationMaker.createPage(page,size,sortBy,sortOrder)));
+            }else{
+                return ResponseEntity.ok().body(generalSubjectRepository.findAll(paginationMaker.createPage(page,size)));
+            }
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Exception occur ", ex);
             return ResponseEntity.badRequest().body(null);
@@ -109,11 +121,11 @@ public class GeneralSubjectController {
             entityById.get().setActive(true);
             generalSubjectRepository.save(entityById.get());
             return ResponseEntity.ok().
-                    body(new ResponseDto("success", GeneralSubjectMessage.UPDATE_SUCCESSFUL));
+                    body(new ResponseDto("success", GeneralSubjectMessage.ACTIVATE_SUCCESSFUL));
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Exception occur ", ex);
             return ResponseEntity.badRequest().
-                    body(new ResponseDto("fail", GeneralSubjectMessage.UPDATE_FAILED));
+                    body(new ResponseDto("fail", GeneralSubjectMessage.ACTIVATE_FAILED));
         }
     }
 
@@ -127,11 +139,11 @@ public class GeneralSubjectController {
             entityById.get().setActive(false);
             generalSubjectRepository.save(entityById.get());
             return ResponseEntity.ok().
-                    body(new ResponseDto("success", GeneralSubjectMessage.UPDATE_SUCCESSFUL));
+                    body(new ResponseDto("success", GeneralSubjectMessage.DEACTIVATE_SUCCESSFUL));
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Exception occur ", ex);
             return ResponseEntity.badRequest().
-                    body(new ResponseDto("fail", GeneralSubjectMessage.UPDATE_FAILED));
+                    body(new ResponseDto("fail", GeneralSubjectMessage.DEACTIVATE_FAILED));
         }
     }
     //TODO put role restriction
