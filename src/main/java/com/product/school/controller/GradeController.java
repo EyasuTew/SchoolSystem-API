@@ -1,32 +1,33 @@
 package com.product.school.controller;
 
-import com.product.school.data.GeneralSubjects;
+import com.product.school.data.Grades;
 import com.product.school.dto.ResponseDto;
-import com.product.school.message.GeneralSubjectMessage;
-import com.product.school.repositories.GeneralSubjectRepository;
+import com.product.school.message.GradeMessage;
+import com.product.school.repositories.GradeRepository;
 import com.product.school.utility.PaginationMaker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @RestController
-@RequestMapping("/api/generalSubject")
-public class GeneralSubjectController {
+@RequestMapping("/api/grade")
+public class GradeController {
 
     @Autowired
     private PaginationMaker paginationMaker;
 
     @Autowired
-    private GeneralSubjectRepository generalSubjectRepository;
-    private static final Logger LOGGER = Logger.getLogger(GeneralSubjectController.class.getName());
+    private GradeRepository gradeRepository;
+    private static final Logger LOGGER = Logger.getLogger(GradeController.class.getName());
 
     @GetMapping
     //@PostAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
-    public ResponseEntity<Page<GeneralSubjects>> listAll(
+    public ResponseEntity<Page<Grades>> listAll(
             @RequestParam("page") int page,
             @RequestParam("size") int size,
             @RequestParam(name = "orderBy", required = false) String sortBy,
@@ -34,9 +35,9 @@ public class GeneralSubjectController {
     ) {
         try {
             if(sortBy!=null || sortOrder!=null){
-                return ResponseEntity.ok().body(generalSubjectRepository.findAll(paginationMaker.createPage(page,size,sortBy,sortOrder)));
+                return ResponseEntity.ok().body(gradeRepository.findAll(paginationMaker.createPage(page,size,sortBy,sortOrder)));
             }else{
-                return ResponseEntity.ok().body(generalSubjectRepository.findAll(paginationMaker.createPage(page,size)));
+                return ResponseEntity.ok().body(gradeRepository.findAll(paginationMaker.createPage(page,size)));
             }
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Exception occur ", ex);
@@ -46,9 +47,9 @@ public class GeneralSubjectController {
 
     @GetMapping("/{id}")
     //@PostAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
-    public ResponseEntity<GeneralSubjects> byId(@PathVariable Long id) {
+    public ResponseEntity<Grades> byId(@PathVariable Long id) {
         try {
-            Optional<GeneralSubjects> entityById = generalSubjectRepository.findById(id);
+            Optional<Grades> entityById = gradeRepository.findById(id);
             if(entityById.isEmpty()){
                 return ResponseEntity.notFound().build();
             }
@@ -62,16 +63,16 @@ public class GeneralSubjectController {
     @PostMapping
     public ResponseEntity<ResponseDto> create(@RequestParam String name) {
         try {
-            GeneralSubjects entity = new GeneralSubjects();
+            Grades entity = new Grades();
             entity.setName(name);
             entity.setActive(false);
-            generalSubjectRepository.save(entity);
+            gradeRepository.save(entity);
             return ResponseEntity.ok().
-                    body(new ResponseDto(true, GeneralSubjectMessage.CREATE_SUCCESSFUL));
+                    body(new ResponseDto(true, GradeMessage.CREATE_SUCCESSFUL));
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Exception occur ", ex);
             return ResponseEntity.badRequest().
-                    body(new ResponseDto(false, GeneralSubjectMessage.CREATE_FAILED));
+                    body(new ResponseDto(false, GradeMessage.CREATE_FAILED));
         }
     }
 
@@ -79,75 +80,75 @@ public class GeneralSubjectController {
     public ResponseEntity<ResponseDto> update(@PathVariable Long id,
                                               @RequestParam String name) {
         try {
-            Optional<GeneralSubjects> entityById = generalSubjectRepository.findById(id);
+            Optional<Grades> entityById = gradeRepository.findById(id);
             if (entityById.isEmpty()) {
                 return ResponseEntity.notFound().build();
             }
             entityById.get().setName(name);
-            generalSubjectRepository.save(entityById.get());
+            gradeRepository.save(entityById.get());
             return ResponseEntity.ok().
-                    body(new ResponseDto(true, GeneralSubjectMessage.UPDATE_SUCCESSFUL));
+                    body(new ResponseDto(true, GradeMessage.UPDATE_SUCCESSFUL));
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Exception occur ", ex);
             return ResponseEntity.badRequest().
-                    body(new ResponseDto(false, GeneralSubjectMessage.UPDATE_FAILED));
+                    body(new ResponseDto(false, GradeMessage.UPDATE_FAILED));
         }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<ResponseDto> delete(@PathVariable Long id) {
         try {
-            Optional<GeneralSubjects> entityById = generalSubjectRepository.findById(id);
+            Optional<Grades> entityById = gradeRepository.findById(id);
             if (entityById.isEmpty()) {
                 return ResponseEntity.notFound().build();
             }
-            generalSubjectRepository.delete(entityById.get());
+            gradeRepository.delete(entityById.get());
             return ResponseEntity.ok().
-                    body(new ResponseDto(true, GeneralSubjectMessage.DELETE_SUCCESSFUL));
+                    body(new ResponseDto(true, GradeMessage.DELETE_SUCCESSFUL));
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Exception occur ", ex);
             return ResponseEntity.badRequest().
-                    body(new ResponseDto(false, GeneralSubjectMessage.DELETE_FAILED));
+                    body(new ResponseDto(false, GradeMessage.DELETE_FAILED));
         }
     }
 
     @PutMapping("/{id}/activate")
     public ResponseEntity<ResponseDto> activate(@PathVariable Long id) {
         try {
-            Optional<GeneralSubjects> entityById = generalSubjectRepository.findById(id);
+            Optional<Grades> entityById = gradeRepository.findById(id);
             if (entityById.isEmpty()) {
                 return ResponseEntity.notFound().build();
             }
             entityById.get().setActive(true);
-            generalSubjectRepository.save(entityById.get());
+            gradeRepository.save(entityById.get());
             return ResponseEntity.ok().
-                    body(new ResponseDto(true, GeneralSubjectMessage.ACTIVATE_SUCCESSFUL));
+                    body(new ResponseDto(true, GradeMessage.ACTIVATE_SUCCESSFUL));
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Exception occur ", ex);
             return ResponseEntity.badRequest().
-                    body(new ResponseDto(false, GeneralSubjectMessage.ACTIVATE_FAILED));
+                    body(new ResponseDto(false, GradeMessage.ACTIVATE_FAILED));
         }
     }
 
     @PutMapping("/{id}/deactivate")
     public ResponseEntity<ResponseDto> deactivate(@PathVariable Long id) {
         try {
-            Optional<GeneralSubjects> entityById = generalSubjectRepository.findById(id);
+            Optional<Grades> entityById = gradeRepository.findById(id);
             if (entityById.isEmpty()) {
                 return ResponseEntity.notFound().build();
             }
             entityById.get().setActive(false);
-            generalSubjectRepository.save(entityById.get());
+            gradeRepository.save(entityById.get());
             return ResponseEntity.ok().
-                    body(new ResponseDto(true, GeneralSubjectMessage.DEACTIVATE_SUCCESSFUL));
+                    body(new ResponseDto(true, GradeMessage.DEACTIVATE_SUCCESSFUL));
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Exception occur ", ex);
             return ResponseEntity.badRequest().
-                    body(new ResponseDto(false, GeneralSubjectMessage.DEACTIVATE_FAILED));
+                    body(new ResponseDto(false, GradeMessage.DEACTIVATE_FAILED));
         }
     }
     //TODO put role restriction
     //TODO restrict delete, update , activate and deactivate... based on if the entity is used by other in relationship
-
+    //TODO more specific response message
 
 }
