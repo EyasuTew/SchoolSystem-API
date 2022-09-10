@@ -1,20 +1,21 @@
 package com.product.school.data;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-import java.util.Set;
-
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
-@Table(	name = "grades")
+@Table(	name = "subjects")
 @Data
 @NoArgsConstructor
-public class Grades {
+@AllArgsConstructor
+@Builder
+public class Subjects {
 
     @Id
     @GeneratedValue(strategy=IDENTITY)
@@ -27,11 +28,12 @@ public class Grades {
     @Column(nullable = false)
     private Boolean active;
 
-    @JsonIgnore
-    @OneToMany(mappedBy="grade")
-    private Set<Sections> sections;
+    @ManyToOne
+    @JoinColumn(name="grade_id", nullable=false)
+    private Grades grade;
 
-    @JsonIgnore
-    @OneToMany(mappedBy="grade")
-    private Set<Subjects> subjects;
+    @ManyToOne
+    @JoinColumn(name="general_subject_id", nullable=false)
+    private GeneralSubjects generalSubject;
+
 }
