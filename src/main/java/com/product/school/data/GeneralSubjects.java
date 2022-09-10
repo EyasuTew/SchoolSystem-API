@@ -1,9 +1,12 @@
 package com.product.school.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
+import java.util.Set;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -23,4 +26,9 @@ public class GeneralSubjects {
 
     @Column(nullable = false)
     private Boolean active;
+
+    @JsonIgnore
+    @OneToMany(mappedBy="generalSubject")
+    private Set<Subjects> subjects;
+
 }

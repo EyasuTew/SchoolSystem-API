@@ -148,6 +148,5 @@ public class GeneralSubjectController {
     }
     //TODO put role restriction
     //TODO restrict delete, update , activate and deactivate... based on if the entity is used by other in relationship
-
-
+    //TODO List all subject under general subject
 }
