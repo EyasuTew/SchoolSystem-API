@@ -1,24 +1,22 @@
 package com.product.school.data;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-
-import java.util.Set;
+import java.util.Date;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
-@Table(	name = "subjects")
+@Table(	name = "time_table_schedules")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Subjects {
+public class TimeTableSchedule {
 
     @Id
     @GeneratedValue(strategy=IDENTITY)
@@ -28,19 +26,17 @@ public class Subjects {
     @Column(name = "name", unique = true, nullable = false)
     private String name;
 
+    @Column(name = "starFrom", nullable = false)
+    private Date starFrom;
+
+    @Column(name = "endTo", nullable = false)
+    private Date endTo;
+
     @Column(nullable = false)
     private Boolean active;
 
     @ManyToOne
-    @JoinColumn(name="grade_id", nullable=false)
-    private Grades grade;
-
-    @ManyToOne
-    @JoinColumn(name="general_subject_id", nullable=false)
-    private GeneralSubjects generalSubject;
-
-    @JsonIgnore
-    @OneToMany(mappedBy="subject")
-    private Set<TimeTables> timeTables;
+    @JoinColumn(name="time_table_id", nullable=false)
+    private TimeTables timeTable;
 
 }

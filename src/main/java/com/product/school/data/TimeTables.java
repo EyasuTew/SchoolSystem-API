@@ -8,17 +8,18 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import java.util.Date;
 import java.util.Set;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
-@Table(	name = "subjects")
+@Table(	name = "time_tables")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Subjects {
+public class TimeTables {
 
     @Id
     @GeneratedValue(strategy=IDENTITY)
@@ -28,19 +29,29 @@ public class Subjects {
     @Column(name = "name", unique = true, nullable = false)
     private String name;
 
+    @Column(name = "starFrom", nullable = false)
+    private Date startFrom;
+
+    @Column(name = "endTo", nullable = false)
+    private Date endTo;
+
     @Column(nullable = false)
     private Boolean active;
 
     @ManyToOne
-    @JoinColumn(name="grade_id", nullable=false)
-    private Grades grade;
+    @JoinColumn(name="section_id", nullable=false)
+    private Sections section;
 
     @ManyToOne
-    @JoinColumn(name="general_subject_id", nullable=false)
-    private GeneralSubjects generalSubject;
+    @JoinColumn(name="subject_id", nullable=false)
+    private Subjects subject;
+
+    @ManyToOne
+    @JoinColumn(name="academic_year_id", nullable=false)
+    private AcademicYears academicYear;
 
     @JsonIgnore
-    @OneToMany(mappedBy="subject")
-    private Set<TimeTables> timeTables;
+    @OneToMany(mappedBy="timeTable")
+    private Set<TimeTableSchedule> timeTableSchedules;
 
 }

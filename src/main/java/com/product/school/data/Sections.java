@@ -1,11 +1,14 @@
 package com.product.school.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
+import java.util.Set;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -31,5 +34,9 @@ public class Sections {
     @ManyToOne
     @JoinColumn(name="grade_id", nullable=false)
     private Grades grade;
+
+    @JsonIgnore
+    @OneToMany(mappedBy="section")
+    private Set<TimeTables> timeTables;
 
 }

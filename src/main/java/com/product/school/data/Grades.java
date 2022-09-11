@@ -34,4 +34,8 @@ public class Grades {
     @JsonIgnore
     @OneToMany(mappedBy="grade")
     private Set<Subjects> subjects;
+
+//    @JsonIgnore
+//    @OneToMany(mappedBy="grade")
+//    private Set<TimeTables> timeTables;
 }
