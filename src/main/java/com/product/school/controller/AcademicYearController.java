@@ -53,5 +53,4 @@ public class AcademicYearController {
     //TODO put role restriction
     //TODO change academic year
 
-
 }
