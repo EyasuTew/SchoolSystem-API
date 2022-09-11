@@ -11,4 +11,5 @@ public class TimeTableDto {
     private Date endTo;
     private Long sectionId;
     private Long subjectId;
+    private Long academicYearId;
 }

@@ -46,6 +46,10 @@ public class TimeTables {
     @JoinColumn(name="subject_id", nullable=false)
     private Subjects subject;
 
+    @ManyToOne
+    @JoinColumn(name="academic_year_id", nullable=false)
+    private AcademicYears academicYear;
+
     @JsonIgnore
     @OneToMany(mappedBy="timeTable")
     private Set<TimeTableSchedule> timeTableSchedules;

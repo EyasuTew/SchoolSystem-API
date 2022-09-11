@@ -1,11 +1,13 @@
 package com.product.school.controller;
 
+import com.product.school.data.AcademicYears;
 import com.product.school.data.Sections;
 import com.product.school.data.Subjects;
 import com.product.school.data.TimeTables;
 import com.product.school.dto.ResponseDto;
 import com.product.school.dto.request.TimeTableDto;
 import com.product.school.message.TimeTableMessage;
+import com.product.school.repositories.AcademicYearRepository;
 import com.product.school.repositories.SectionRepository;
 import com.product.school.repositories.SubjectRepository;
 import com.product.school.repositories.TimeTableRepository;
@@ -34,6 +36,9 @@ public class TimeTableController {
 
     @Autowired
     private SubjectRepository subjectRepository;
+
+    @Autowired
+    private AcademicYearRepository academicYearRepository;
 
     private static final Logger LOGGER = Logger.getLogger(TimeTableController.class.getName());
 
@@ -86,6 +91,11 @@ public class TimeTableController {
                 return ResponseEntity.notFound().build();
             }
 
+            Optional<AcademicYears> academicYearById = academicYearRepository.findById(timeTableDto.getAcademicYearId());
+            if(subjectById.isEmpty()){
+                return ResponseEntity.notFound().build();
+            }
+
             TimeTables entity = new TimeTables();
             entity.setName(timeTableDto.getName());
             entity.setStartFrom(timeTableDto.getStartFrom());
@@ -93,6 +103,7 @@ public class TimeTableController {
             entity.setActive(false);
             entity.setSection(sectionById.get());
             entity.setSubject(subjectById.get());
+            entity.setAcademicYear(academicYearById.get());
 
             timeTableRepository.save(entity);
             return ResponseEntity.ok().
@@ -123,9 +134,18 @@ public class TimeTableController {
                 return ResponseEntity.notFound().build();
             }
 
+            Optional<AcademicYears> academicYearById = academicYearRepository.findById(timeTableDto.getAcademicYearId());
+            if(subjectById.isEmpty()){
+                return ResponseEntity.notFound().build();
+            }
+
             entityById.get().setName(timeTableDto.getName());
             entityById.get().setStartFrom(timeTableDto.getStartFrom());
             entityById.get().setEndTo(timeTableDto.getEndTo());
+            entityById.get().setAcademicYear(academicYearById.get());
+            entityById.get().setSubject(subjectById.get());
+            entityById.get().setSection(sectionById.get());
+
             timeTableRepository.save(entityById.get());
             return ResponseEntity.ok().
                     body(new ResponseDto(true, TimeTableMessage.UPDATE_SUCCESSFUL));
