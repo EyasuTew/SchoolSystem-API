@@ -9,9 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ParentsRequestDto {
 
-    private String fristName;
-    private String lastName;
-    private String midName;
-    private int phoneNumber;
+  private long personid;
     private long studentid;
 }
