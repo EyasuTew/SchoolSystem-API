@@ -78,7 +78,7 @@ public class TimeTableScheduleController {
 
             TimeTableSchedule entity = new TimeTableSchedule();
             entity.setName(timeTableScheduleDto.getName());
-            entity.setStarFrom(timeTableScheduleDto.getStartFrom());
+            entity.setStartFrom(timeTableScheduleDto.getStartFrom());
             entity.setEndTo(timeTableScheduleDto.getEndTo());
             entity.setActive(false);
             entity.setTimeTable(timeTableById.get());
@@ -108,7 +108,7 @@ public class TimeTableScheduleController {
             }
 
             entityById.get().setName(timeTableScheduleDto.getName());
-            entityById.get().setStarFrom(timeTableScheduleDto.getStartFrom());
+            entityById.get().setStartFrom(timeTableScheduleDto.getStartFrom());
             entityById.get().setEndTo(timeTableScheduleDto.getEndTo());
             entityById.get().setTimeTable(timeTableById.get());
 

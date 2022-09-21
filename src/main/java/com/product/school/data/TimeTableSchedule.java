@@ -26,10 +26,10 @@ public class TimeTableSchedule {
     @Column(name = "name", unique = true, nullable = false)
     private String name;
 
-    @Column(name = "starFrom", nullable = false)
-    private Date starFrom;
+    @Column(name = "start_from", nullable = false)
+    private Date startFrom;
 
-    @Column(name = "endTo", nullable = false)
+    @Column(name = "end_to", nullable = false)
     private Date endTo;
 
     @Column(nullable = false)

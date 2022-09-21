@@ -1,5 +1,6 @@
 package com.product.school.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,14 +22,14 @@ public class Persons {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-    @Column(name = "fristName", nullable = false)
+    @Column(name = "frist_name", nullable = false)
     private String fristName;
-    @Column(name = "midname", nullable = false)
-    private String midName;
-    @Column(name = "lastName", nullable = false)
+//    @Column(name = "midname", nullable = false)
+//    private String midName;
+//    @Column(name = "lastName", nullable = false)
     private String lastName;
-    @Column(name = "phoneNumber", nullable = false, unique = true, length = 45)
-    private String phoneNumber;
+    @Column(name = "phone", nullable = false, unique = true, length = 45)
+    private String phone;
     @Column(name = "subcity", length = 45)
     private String subcity;
     @Column(name = "kebele", length = 45)
@@ -37,15 +38,34 @@ public class Persons {
     private String gender;
     @Column(name = "created_on", nullable = false)
     private Instant createdOn;
-    @Column(name = "emailAddress", nullable = true, unique = true, length = 45)
-    private String emailAddress;
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "updatedOn", nullable = false)
-    private Instant updatedOn;
+    @Column(name = "email", nullable = true, unique = true, length = 45)
+    private String email;
+//    @Temporal(TemporalType.TIMESTAMP)
+//    @Column(name = "updatedOn", nullable = false)
+//    private Instant updatedOn;
 
+//    @OneToOne(mappedBy = "person")
+//    private Parents parent;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "persons")
-    private Set<Parents> parents = new HashSet<Parents>(0);
+//    @OneToOne
+//    @MapsId
+//    @JoinColumn(name = "parent_id", nullable = true)
+//    @JsonIgnore
+//    private Parents parent;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "parent_id", referencedColumnName = "id", nullable = true)
+    @JsonIgnore
+    private Parents parent;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "student_id", referencedColumnName = "id", nullable = true)
+    @JsonIgnore
+    private Students student;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "teacher_id", referencedColumnName = "id", nullable = true)
+    @JsonIgnore
+    private Teachers teacher;
 
 }

@@ -1,4 +1,4 @@
-package com.product.school.Service;
+package com.product.school.service;
 
 import com.product.school.data.Persons;
 import com.product.school.dto.ResponseDto;
@@ -7,6 +7,7 @@ import com.product.school.message.PersonsMessage;
 import com.product.school.repositories.PersonsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@Service
 public class PersonsService {
 
     private PersonsRepository personsRepository;
@@ -29,10 +31,10 @@ public class PersonsService {
         try {
             Persons persons = new Persons();
             persons.setFristName(personsRequestDto.getFristName());
-            persons.setMidName(personsRequestDto.getMidName());
-            persons.setLastName(personsRequestDto.getLastName());
-            persons.setEmailAddress(personsRequestDto.getEmailAddress());
-            persons.setPhoneNumber(personsRequestDto.getPhoneNumber());
+//            persons.setMidName(personsRequestDto.getMidName());
+//            persons.setLastName(personsRequestDto.getLastName());
+//            persons.setEmailAddress(personsRequestDto.getEmailAddress());
+//            persons.setPhoneNumber(personsRequestDto.getPhoneNumber());
             persons.setGender(personsRequestDto.getGender());
             persons.setSubcity(personsRequestDto.getSubcity());
             persons.setKebele(personsRequestDto.getKebele());
@@ -53,14 +55,14 @@ public class PersonsService {
             return new ResponseDto(false, "there is id number found");
         }
         persons.setFristName(personsRequestDto.getFristName());
-        persons.setMidName(personsRequestDto.getMidName());
-        persons.setLastName(personsRequestDto.getLastName());
-        persons.setEmailAddress(personsRequestDto.getEmailAddress());
-        persons.setPhoneNumber(personsRequestDto.getPhoneNumber());
+//        persons.setMidName(personsRequestDto.getMidName());
+//        persons.setLastName(personsRequestDto.getLastName());
+//        persons.setEmailAddress(personsRequestDto.getEmailAddress());
+//        persons.setPhoneNumber(personsRequestDto.getPhoneNumber());
         persons.setGender(personsRequestDto.getGender());
         persons.setSubcity(personsRequestDto.getSubcity());
         persons.setKebele(personsRequestDto.getKebele());
-        persons.setUpdatedOn(Instant.now());
+//        persons.setUpdatedOn(Instant.now());
 
 
         personsRepository.save(persons);

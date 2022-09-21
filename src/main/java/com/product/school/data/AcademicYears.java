@@ -16,15 +16,16 @@ import java.util.Set;
 public class AcademicYears {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", unique = true, nullable = false)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name="year",nullable = false)
     private String year;
 
-    @Column(nullable = false)
+    @Column(name = "is_current",nullable = false)
     private Boolean isCurrent;
 
-    @Column(nullable = false)
+    @Column(name = "is_active",nullable = false)
     private Boolean isActive;
 
     @JsonIgnore

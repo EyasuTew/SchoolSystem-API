@@ -28,7 +28,7 @@ public class Subjects {
     @Column(name = "name", unique = true, nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(name = "active",nullable = false)
     private Boolean active;
 
     @ManyToOne

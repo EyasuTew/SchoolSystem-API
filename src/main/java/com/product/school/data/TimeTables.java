@@ -29,13 +29,13 @@ public class TimeTables {
     @Column(name = "name", unique = true, nullable = false)
     private String name;
 
-    @Column(name = "starFrom", nullable = false)
+    @Column(name = "start_from", nullable = false)
     private Date startFrom;
 
-    @Column(name = "endTo", nullable = false)
+    @Column(name = "end_to", nullable = false)
     private Date endTo;
 
-    @Column(nullable = false)
+    @Column(name = "active",nullable = false)
     private Boolean active;
 
     @ManyToOne
